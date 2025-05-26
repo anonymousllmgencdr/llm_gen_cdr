@@ -223,7 +223,7 @@ def get_split_byuser_split(sources, target, base_output_path=None, split=False):
             target_title = collect_top_n_titletag(now_data["target"]["tag"], n=10)
             for val in target_title:
                 if "、" in val:
-                    print("tag有、:", val)
+                    print("tag 、:", val)
                 all_target_items.add(val)
             if len(target_title) == 0:
                 continue
