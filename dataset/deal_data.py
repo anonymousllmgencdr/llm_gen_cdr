@@ -8,13 +8,13 @@ seed = 42
 random.seed(seed)
 np.random.seed(seed)
 
-input_path_book = "./deal_data/bookreviews_cleaned_rating.json"
-input_path_movie = "./deal_data/moviereviews_cleaned_rating.json"
-input_path_music = "./deal_data/musicreviews_cleaned_rating.json"
+input_path_book = "./dataset/bookreviews_cleaned_rating.json"
+input_path_movie = "./dataset/moviereviews_cleaned_rating.json"
+input_path_music = "./dataset/musicreviews_cleaned_rating.json"
 
-input_path_book_info = "./deal_data/bookitem_info_all.json"
-input_path_movie_info = "./deal_data/movieitem_info_all.json"
-input_path_music_info = "./deal_data/musicitem_info_all.json"
+input_path_book_info = "./dataset/bookitem_info_all.json"
+input_path_movie_info = "./dataset/movieitem_info_all.json"
+input_path_music_info = "./dataset/musicitem_info_all.json"
 
 
 def sort_ab(a, b):
@@ -576,7 +576,7 @@ START_PROMPT = "你是豆瓣网站的用户兴趣预测专家，我会给你提�
 END_PROMPT = "\n请基于以上用户在音乐和书籍领域的兴趣，推测用户可能感兴趣的{}个电影标签，直接给出标签名，不要有额外描述。"
 
 
-base_output_path = "./deal_data/train_data"
+base_output_path = "./dataset/train_data"
 get_split_byuser_split(sources, target, base_output_path=base_output_path, split=True)
 
 

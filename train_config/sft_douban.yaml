@@ -1,24 +1,24 @@
 ### model
-model_name_or_path: xxxxx
+model_name_or_path: /mmu_vcg_wjc_hdd/duyong/plms/QWen/Qwen2.5-7B-Instruct
 
 ### method
 stage: sft
 do_train: true
 finetuning_type: full
-deepspeed: train_config/ds_z2_config.json
+deepspeed: train_config/ds_z2.config.json
 max_grad_norm: 1.0
 
 ### dataset
-dataset: deal_data/train_data/qwen_train.json
+dataset: dataset/train_data/qwen_train.json
 template: qwen
 cutoff_len: 768
 overwrite_cache: true
-preprocessing_num_workers: 32
+preprocessing_num_workers: 8
 
 
 ### output
 output_dir: saves/douban/sft_ckpt
-save_steps: 100
+save_steps: 10
 plot_loss: true
 overwrite_output_dir: false
 save_total_limit: 20

@@ -1,5 +1,4 @@
-import os
-
+import os, sys
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import json, tqdm
 import numpy as np
@@ -128,17 +127,20 @@ def eval_recall_hr(result_path, train_path=None, bge_model=None):
                                                                               np.mean(recall_test), np.mean(hr_test)))
 
 
-ckpt_path = "/checkpoint-{}"
-test_path = "./deal_data/train_data/qwen_test.json"
-train_path = "./deal_data/train_data/qwen_train.json"
-output_path = "./deal_data/train_data/qwen_test_gen.json"
-bge_m3_path = ""
+ckpt_path = "./saves/douban/sft_ckpt/"
+test_path = "./dataset/train_data/qwen_test.json"
+train_path = "./dataset/train_data/qwen_train.json"
+output_path = "./dataset/train_data/qwen_test_gen.json"
+bge_m3_path = "./plms/bge-m3"
 
 bge_model = BGE_M3(BGE_PATH=bge_m3_path)
 
-for ckpt in []:
-    now_ckpt = ckpt_path.format(ckpt)
-    get_predict(now_ckpt, test_path, output_path, gen_num=5)
+file_names = os.listdir(ckpt_path)
+file_names = sorted([(val, int(val.split("checkpoint-")[1])) for val in file_names if "checkpoint-" in val],  key=lambda x: x[1], reverse=True)
+now_ckpt = [ckpt_path + val[0] for val in file_names[:5]]
+
+for ckpt in now_ckpt:
+    get_predict(ckpt, test_path, output_path, gen_num=5)
     eval_recall_hr(output_path, train_path=train_path, bge_model=bge_model)
-    get_predict(now_ckpt, test_path, output_path, gen_num=10)
+    get_predict(ckpt, test_path, output_path, gen_num=10)
     eval_recall_hr(output_path, train_path=train_path, bge_model=bge_model)

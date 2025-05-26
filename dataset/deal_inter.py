@@ -7,8 +7,8 @@ def deal(DATATYPE=0):
     GENERARE_TYPE = 3
     GENERATELIST = ["", "_label", "_limit", "_rating"]
     DATALIST = ["book", "movie", "music"]
-    base_path = "./data/"
-    base_out_path = "./deal_data/"
+    base_path = "./dataset/"
+    base_out_path = "./dataset/"
     if not os.path.exists(base_out_path):
         os.makedirs(base_out_path)
 
