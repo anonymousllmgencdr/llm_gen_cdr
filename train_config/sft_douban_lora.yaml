@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: xxxxx
+model_name_or_path:
 
 ### method
 stage: sft
@@ -9,7 +9,7 @@ lora_target: all
 max_grad_norm: 1.0
 
 ### dataset
-dataset: xxxxx
+dataset: deal_data/train_data/qwen_train.json
 template: qwen
 cutoff_len: 768
 overwrite_cache: true
@@ -18,7 +18,7 @@ tokenized_path:
 
 
 ### output
-output_dir: xxxxx
+output_dir: saves/douban/sft_lora_ckpt
 save_steps: 100
 plot_loss: true
 overwrite_output_dir: false
@@ -33,8 +33,6 @@ lr_scheduler_type: cosine
 warmup_ratio: 0.1
 bf16: true
 ddp_timeout: 180000000
-report_to: tensorboard
-logging_dir: xxxxx
 logging_strategy: steps
 logging_steps: 3
 

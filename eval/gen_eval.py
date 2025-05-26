@@ -64,9 +64,9 @@ def eval_recall_hr(result_path, train_path=None, bge_model=None):
     all_items = set()
     if train_path is not None and bge_model is not None:
         with open(train_path, encoding="utf8") as f_in:
-            train_data = json.load(f_in)
-            for val in train_data:
-                output = val["output"].split("、")
+            for line in f_in:
+                line = json.loads(line)
+                output = line["output"].split("、")
                 for tt in output:
                     all_items.add(tt)
         with open(result_path, encoding="utf8") as f_in:

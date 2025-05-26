@@ -474,7 +474,11 @@ def write_qwen_data_more(now_train_data, now_val_data, now_test_data, target_tit
     with open(qwen_test_path, "w", encoding="utf8") as f_out:
         for val in qwen_test_data:
             f_out.write(json.dumps(val, ensure_ascii=False) + "\n")
-    json.dump(qwen_train_data, open(qwen_train_path, mode='w', encoding="utf8"), indent=4, ensure_ascii=False)
+
+    with open(qwen_train_path, "w", encoding="utf8") as f_out:
+        for val in qwen_train_data:
+            f_out.write(json.dumps(val, ensure_ascii=False) + "\n")
+
 
 
 
