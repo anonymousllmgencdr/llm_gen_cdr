@@ -17,4 +17,4 @@
 - train the model using LLaMA-Factory
 
 # Eval
-modify and run gen_eval.py
+modify and run eval/gen_eval.py

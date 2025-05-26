@@ -4,105 +4,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import json, tqdm
 import numpy as np
 import torch
-import faiss
-from vllm import LLM, SamplingParams
-from transformers import AutoTokenizer
-from FlagEmbedding import BGEM3FlagModel
-
-
-class GenQWen(object):
-    def __init__(self, model_path, max_new_tokens=512, max_model_len=2048, temperature=0.7, top_p=0.8,
-                 gpu_memory_utilization=0.9, repetition_penalty=1.05, n=1):
-
-        self.sampling_params = SamplingParams(n=n, temperature=temperature, top_p=top_p,
-                                              repetition_penalty=repetition_penalty, max_tokens=max_new_tokens)
-        self.model = LLM(model=model_path, max_model_len=max_model_len, gpu_memory_utilization=gpu_memory_utilization,
-                         enable_lora=True)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
-        self.max_new_tokens = max_new_tokens
-
-    def generate(self, prompt):
-        texts = []
-        if isinstance(prompt, str):
-            messages = [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
-            text = self.tokenizer.apply_chat_template(
-                messages,
-                tokenize=False,
-                add_generation_prompt=True
-            )
-            texts.append(text)
-        else:
-            for val in prompt:
-                messages = [
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": val}
-                ]
-                text = self.tokenizer.apply_chat_template(
-                    messages,
-                    tokenize=False,
-                    add_generation_prompt=True
-                )
-                texts.append(text)
-        response = []
-
-        outputs = self.model.generate(texts, sampling_params=self.sampling_params)
-        for output in outputs:
-            now_res = []
-            for idx in range(len(output.outputs)):
-                now_res.append(output.outputs[idx].text)
-            response.append(now_res)
-        return response
-
-
-class BGE_M3(object):
-    def __init__(self, BGE_PATH, device="cuda:0"):
-        self.model = BGEM3FlagModel(BGE_PATH, use_fp16=True, device=device)
-
-    def get_embeddings(self, texts, batch_size=128, max_length=512):
-        embeddings = self.model.encode(texts, batch_size=batch_size, max_length=max_length, )['dense_vecs']
-        return embeddings
-
-    def get_embedding(self, text, max_length=512):
-        return self.get_embeddings([text], max_length=max_length)
-
-
-class RecallUtilBatch(object):
-    def __init__(self, texts, bge_model, max_length=1024, batch_size=128, flat_fun="IP"):
-
-        self.max_length = max_length
-        self.embedding_func = bge_model
-        embeddings = self.embedding_func.get_embeddings(texts, max_length=self.max_length, batch_size=batch_size)
-        embeddings = np.array(embeddings, dtype=np.float32)
-        self.embeddings = embeddings
-        print(embeddings.shape)
-        if flat_fun == "IP":
-            emb_index = faiss.IndexFlatIP(embeddings.shape[1])
-        elif flat_fun == "L2":
-            emb_index = faiss.IndexFlatL2(embeddings.shape[1])
-
-        self.emb_index = emb_index
-        self.emb_index.add(embeddings)
-
-    def search_topn(self, texts=None, embedding=None, top=10):
-        if texts is not None:
-            if isinstance(texts, str):
-                texts = [texts]
-            text_embedding = self.embedding_func.get_embeddings(texts, max_length=self.max_length)
-            text_embedding = text_embedding.astype(np.float32)
-        else:
-            text_embedding = embedding
-
-        base_distances, base_indices = self.emb_index.search(text_embedding, top)
-
-        retrun_info = {
-            "base_distances": base_distances,
-            "base_index": base_indices,
-        }
-
-        return retrun_info
+from eval.gen_util import GenQWen
+from eval.recall_util import BGE_M3, RecallUtilBatch
 
 
 def load_json(input_path):
@@ -156,7 +59,7 @@ def get_predict(ckpt_path, input_path, output_path, gen_num=5):
     torch.cuda.empty_cache()
 
 
-def eval_recall_hr_base(result_path, train_path=None, bge_model=None):
+def eval_recall_hr(result_path, train_path=None, bge_model=None):
     name2simname = {}
     all_items = set()
     if train_path is not None and bge_model is not None:
@@ -236,6 +139,6 @@ bge_model = BGE_M3(BGE_PATH=bge_m3_path)
 for ckpt in []:
     now_ckpt = ckpt_path.format(ckpt)
     get_predict(now_ckpt, test_path, output_path, gen_num=5)
-    eval_recall_hr_base(output_path, train_path=train_path, bge_model=bge_model)
+    eval_recall_hr(output_path, train_path=train_path, bge_model=bge_model)
     get_predict(now_ckpt, test_path, output_path, gen_num=10)
-    eval_recall_hr_base(output_path, train_path=train_path, bge_model=bge_model)
+    eval_recall_hr(output_path, train_path=train_path, bge_model=bge_model)
