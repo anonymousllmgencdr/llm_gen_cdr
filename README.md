@@ -1,4 +1,6 @@
 # Enviroment
+- create -n env_name ptrhon==3.11
+- conda activate env_name
 - pip install -r requirements.txt
 
 # Dataset

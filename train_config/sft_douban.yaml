@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /mmu_vcg_wjc_hdd/duyong/plms/QWen/Qwen2.5-7B-Instruct
+model_name_or_path: plms/Qwen2.5-7B-Instruct
 
 ### method
 stage: sft
@@ -18,7 +18,7 @@ preprocessing_num_workers: 8
 
 ### output
 output_dir: saves/douban/sft_ckpt
-save_steps: 10
+save_steps: 100
 plot_loss: true
 overwrite_output_dir: false
 save_total_limit: 20
