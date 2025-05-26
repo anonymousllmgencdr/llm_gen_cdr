@@ -4,10 +4,10 @@ import json, tqdm
 
 def load_uid2id(data_name):
     if data_name == "music":
-        data_path = "data/music_cleaned.txt"
+        data_path = "./data/music_cleaned.txt"
         nameid = "music_id"
     elif data_name == "book":
-        data_path = "data/books_cleaned.txt"
+        data_path = "./data/books_cleaned.txt"
         nameid = "book_id"
     data_item = pd.read_csv(data_path, sep='\t', skipinitialspace=True)
     uid2id = dict(zip(data_item["UID"], data_item[nameid]))
@@ -16,22 +16,22 @@ def load_uid2id(data_name):
 
 def deal_item(data_name):
     if data_name == "book":
-        input_path = "data/bookreviews_cleaned.txt"
-        output_path = "deal_data/bookitem_info_all.json"
+        input_path = "./data/bookreviews_cleaned.txt"
+        output_path = "./deal_data/bookitem_info_all.json"
         id_name = "book_id"
         name_name = None
         tag_name = "labels"
         uid2id = load_uid2id(data_name)
     elif data_name == "music":
-        input_path = "data/musicreviews_cleaned.txt"
-        output_path = "deal_data/musicitem_info_all.json"
+        input_path = "./data/musicreviews_cleaned.txt"
+        output_path = "./deal_data/musicitem_info_all.json"
         id_name = "music_id"
         name_name = None
         tag_name = "labels"
         uid2id = load_uid2id(data_name)
     elif data_name == "movie":
-        input_path = "data/movies_cleaned.txt"
-        output_path = "deal_data/movieitem_info_all.json"
+        input_path = "./data/movies_cleaned.txt"
+        output_path = "./deal_data/movieitem_info_all.json"
         id_name = "movie_id"
         name_name = "name"
         tag_name = "tag"

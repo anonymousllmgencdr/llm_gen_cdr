@@ -12,8 +12,8 @@
 - [bge-m3](https://huggingface.co/BAAI/bge-m3)
 
 # Train
-- execute run.sh
-- modify the training script sft_douban.yaml
+- execute run_data.sh
+- modify the training script train_config/sft_douban.yaml
 - train the model using LLaMA-Factory
 
 # Eval
