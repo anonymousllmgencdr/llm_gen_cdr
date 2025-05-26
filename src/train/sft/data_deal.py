@@ -86,8 +86,7 @@ def get_key_line_idx(input_path, watch_key=None):
             now_idx = f.tell()
             line = f.readline()
             now_count += 1
-            # if len(id_idx) >= 2400:
-            #     break
+            
     return id_idx
 
 
