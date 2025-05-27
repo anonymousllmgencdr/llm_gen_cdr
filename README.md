@@ -1,5 +1,5 @@
 # Enviroment
-- conda create -n env_name ptrhon==3.11
+- conda create -n env_name python==3.11
 - conda activate env_name
 - pip install -r requirements.txt
 
