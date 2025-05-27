@@ -1,0 +1,1 @@
+- Download the [Douban](https://www.researchgate.net/publication/350793434_Douban_dataset_ratings_item_details_user_profiles_tags_and_reviews) dataset, extract it and store it in this folder
