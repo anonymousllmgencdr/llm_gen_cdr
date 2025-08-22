@@ -1,5 +1,9 @@
 # Enviroment
+<<<<<<< HEAD
 - conda create -n env_name python==3.11
+=======
+- conda create -n env_name ptrhon==3.11
+>>>>>>> upstream-b/master
 - conda activate env_name
 - pip install -r requirements.txt
 
@@ -11,4 +15,9 @@
 - Download [bge-m3](https://huggingface.co/BAAI/bge-m3), store it in ./plms/bge-m3 folder folder
 
 # Train & Eval
+<<<<<<< HEAD
 - execute run_main.sh
+=======
+- execute run_main.sh
+- modify sft_ckpt and run train_config/dpo_douban.yaml
+>>>>>>> upstream-b/master
