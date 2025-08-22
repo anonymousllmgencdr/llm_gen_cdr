@@ -1,7 +1,4 @@
 *.pyc
-<<<<<<< HEAD
-=======
 *.txt
->>>>>>> upstream-b/master
 *saves
 *.json
