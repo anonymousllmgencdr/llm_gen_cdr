@@ -12,3 +12,4 @@
 
 # Train & Eval
 - execute run_main.sh
+- modify sft_ckpt and run train_config/dpo_douban.yaml
